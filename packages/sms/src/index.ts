@@ -2,7 +2,8 @@ import fetch from 'axios';
 
 export enum EMethods {
     POST = 'POST',
-    GET = 'GET'
+    GET = 'GET',
+    OPTIONS = 'OPTIONS'
 }
 
 export interface IEvent {
@@ -122,7 +123,7 @@ class Sms {
 
 exports.handler = async (event: IEvent) => {
     // Only allow POST
-    if (event.httpMethod !== "POST") {
+    if (event.httpMethod !== 'POST' && event.httpMethod !== 'OPTIONS') {
         return {
             statusCode: 405,
             body: "Method Not Allowed"
