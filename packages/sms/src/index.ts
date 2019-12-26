@@ -62,6 +62,14 @@ class Driver {
      * Sends an SMS message
      */
     public sendSMS: (smsData: ISms) => Promise<void> = async (smsData) => {
+        const body = {
+            message_type: MESSAGE_HIGH_QUALITY,
+            recipient: [
+                `+${smsData.number}`
+            ],
+            message: smsData.message,
+        }
+
         try {
 
             if (!this.userData.userKey) {
@@ -71,7 +79,7 @@ class Driver {
             const sentSms = await fetch(`${BASEURL}/sms`, {
                 method: 'POST',
                 headers: { 'user_key': this.userData.userKey, 'Session_key': this.userData.sessionKey },
-                body: JSON.stringify(smsData),
+                body: JSON.stringify(body),
             });
 
             const response = await sentSms.json();
