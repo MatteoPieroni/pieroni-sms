@@ -122,11 +122,16 @@ class Sms {
 }
 
 exports.handler = async (event: IEvent) => {
-    // Only allow POST
-    if (event.httpMethod !== 'POST' && event.httpMethod !== 'OPTIONS') {
+
+    if (event.httpMethod !== 'POST') {
+        // To enable CORS
         return {
-            statusCode: 405,
-            body: "Method Not Allowed"
+            statusCode: 200, // <-- Important!
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Headers': 'Content-Type',
+                'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE'
+            }
         };
     }
 
