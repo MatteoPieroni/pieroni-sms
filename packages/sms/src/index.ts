@@ -41,6 +41,7 @@ class Driver {
      * object is passed to the callback as second parameter.
      */
     private login: () => Promise<void> = async () => {
+        console.log('loggin in')
         try {
             const loginData = await fetch(`${BASEURL}/login?username=${username}&password=${password}`);
             const auth = await loginData.json();
