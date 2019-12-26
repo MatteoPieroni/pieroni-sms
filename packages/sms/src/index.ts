@@ -26,8 +26,15 @@ const MESSAGE_MEDIUM_QUALITY = "TI";
 const MESSAGE_LOW_QUALITY = "SI";
 
 const BASEURL = process.env.URL;
+const ALLOWED_ORIGIN = process.env.ALLOWED_ORIGIN;
 const username = process.env.USER;
 const password = process.env.PASSWORD;
+
+const headers = {
+    'Access-Control-Allow-Origin': ALLOWED_ORIGIN,
+    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE'
+}
 
 /*
  * State management.
@@ -127,11 +134,7 @@ exports.handler = async (event: IEvent) => {
         // To enable CORS
         return {
             statusCode: 200, // <-- Important!
-            headers: {
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Headers': 'Content-Type',
-                'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE'
-            }
+            headers,
         };
     }
 
@@ -141,11 +144,7 @@ exports.handler = async (event: IEvent) => {
         return {
             statusCode: 400,
             body: "Sembra che i dati inviati non siano corretti",
-            headers: {
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Headers': 'Content-Type',
-                'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE'
-            }
+            headers,
         };
     }
 
@@ -159,21 +158,13 @@ exports.handler = async (event: IEvent) => {
         return {
             statusCode: 200,
             body: JSON.stringify(result),
-            headers: {
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Headers': 'Content-Type',
-                'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE'
-            }
+            headers,
         }
     } catch (e) {
         return {
             statusCode: 400,
             body: JSON.stringify(skebby.error),
-            headers: {
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Headers': 'Content-Type',
-                'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE'
-            }
+            headers,
         }
     }
 };
