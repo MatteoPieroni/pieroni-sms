@@ -3,8 +3,8 @@
     "outDir": "./functions",
     "sourceMap": false,
     "noImplicitAny": true,
-    "module": "esnext",
-    "target": "es5",
+    "target": "es6",
+    "module": "commonjs",
     "esModuleInterop": true,
     "moduleResolution": "node"
   }
