@@ -1,4 +1,4 @@
-import fetch from 'node-fetch';
+import fetch from 'axios';
 
 export enum EMethods {
     POST = 'POST',
@@ -50,19 +50,17 @@ class Driver {
      * object is passed to the callback as second parameter.
      */
     private login: () => Promise<void> = async () => {
-        console.log('loggin in')
         try {
             const loginData = await fetch(`${BASEURL}/login?username=${username}&password=${password}`);
-            const auth = await loginData.json();
 
             this.userData = {
-                userKey: auth.split(';')[0],
-                sessionKey: auth.split(';')[1],
+                userKey: loginData.data.split(';')[0],
+                sessionKey: loginData.data.split(';')[1],
             };
         } catch (e) {
-            console.log(e);
-
             this.error = e.message;
+
+            console.log('error login', this.error);
         }
     }
 
@@ -82,7 +80,7 @@ class Driver {
         try {
 
             if (!this.userData.userKey) {
-                this.login();
+                await this.login();
             }
 
             const sentSms = await fetch(`${BASEURL}/sms`, {
@@ -92,15 +90,16 @@ class Driver {
                     'session_key': this.userData.sessionKey,
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(body),
+                data: JSON.stringify(body),
             });
 
-            const response = await sentSms.json();
-
-            return response;
+            return sentSms.data;
         } catch (e) {
-            console.log(e);
             this.error = e.message;
+
+            console.log('Error sending', this.error);
+
+            throw new Error(this.error);
         }
     };
 }
