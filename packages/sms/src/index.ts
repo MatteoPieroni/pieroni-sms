@@ -56,8 +56,8 @@ class Driver {
             const auth = await loginData.json();
 
             this.userData = {
-                userKey: auth[0],
-                sessionKey: auth[1]
+                userKey: auth.split(';')[0],
+                sessionKey: auth.split(';')[1],
             };
         } catch (e) {
             console.log(e);
@@ -124,13 +124,19 @@ class Sms {
 exports.handler = async (event: IEvent) => {
     // Only allow POST
     if (event.httpMethod !== "POST") {
-        return { statusCode: 405, body: "Method Not Allowed" };
+        return {
+            statusCode: 405,
+            body: "Method Not Allowed"
+        };
     }
 
     const params = JSON.parse(event.body) || {};
 
     if (!params.number || !params.message) {
-        return { statusCode: 400, body: "Sembra che i dati inviati non siano corretti" };
+        return {
+            statusCode: 400,
+            body: "Sembra che i dati inviati non siano corretti"
+        };
     }
 
 
