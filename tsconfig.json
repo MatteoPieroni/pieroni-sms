@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "outDir": "./functions/sms",
+    "sourceMap": true,
+    "noImplicitAny": true,
+    "module": "esnext",
+    "target": "es6",
+    "esModuleInterop": true,
+    "moduleResolution": "node"
+  }
+}
