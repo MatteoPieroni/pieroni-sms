@@ -87,7 +87,11 @@ class Driver {
 
             const sentSms = await fetch(`${BASEURL}/sms`, {
                 method: 'POST',
-                headers: { 'user_key': this.userData.userKey, 'Session_key': this.userData.sessionKey },
+                headers: {
+                    'user_key': this.userData.userKey,
+                    'session_key': this.userData.sessionKey,
+                    'Content-Type': 'application/json'
+                },
                 body: JSON.stringify(body),
             });
 
@@ -125,22 +129,25 @@ exports.handler = async (event: IEvent) => {
 
     const params = JSON.parse(event.body) || {};
 
-    if (params.number && params.message) {
-        const service = new Sms();
-        const skebby = service.getInstance();
+    if (!params.number || !params.message) {
+        return { statusCode: 400, body: "Sembra che i dati inviati non siano corretti" };
+    }
 
-        try {
-            const result = await skebby.sendSMS(params);
 
-            return {
-                statusCode: 200,
-                body: JSON.stringify(result),
-            }
-        } catch (e) {
-            return {
-                statusCode: 400,
-                body: JSON.stringify(skebby.error),
-            }
+    const service = new Sms();
+    const skebby = service.getInstance();
+
+    try {
+        const result = await skebby.sendSMS(params);
+
+        return {
+            statusCode: 200,
+            body: JSON.stringify(result),
+        }
+    } catch (e) {
+        return {
+            statusCode: 400,
+            body: JSON.stringify(skebby.error),
         }
     }
 };
