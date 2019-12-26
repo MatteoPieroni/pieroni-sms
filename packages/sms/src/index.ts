@@ -1,6 +1,24 @@
 import fetch from 'node-fetch';
 
-import * as Types from './types';
+export enum EMethods {
+    POST = 'POST',
+    GET = 'GET'
+}
+
+export interface IEvent {
+    httpMethod: keyof typeof EMethods,
+    body: string,
+}
+
+interface ILogin {
+    userKey: string;
+    sessionKey: string;
+}
+
+interface ISms {
+    number: string;
+    message: string;
+}
 
 const MESSAGE_HIGH_QUALITY = "GP";
 const MESSAGE_MEDIUM_QUALITY = "TI";
@@ -9,15 +27,6 @@ const MESSAGE_LOW_QUALITY = "SI";
 const BASEURL = process.env.URL;
 const username = process.env.USER;
 const password = process.env.PASSWORD;
-
-interface ILogin {
-    userKey: string;
-    sessionKey: string;
-}
-interface ISms {
-    number: string;
-    message: string;
-}
 
 /*
  * State management.
@@ -108,7 +117,7 @@ class Sms {
     }
 }
 
-exports.handler = async (event: Types.IEvent) => {
+exports.handler = async (event: IEvent) => {
     // Only allow POST
     if (event.httpMethod !== "POST") {
         return { statusCode: 405, body: "Method Not Allowed" };
