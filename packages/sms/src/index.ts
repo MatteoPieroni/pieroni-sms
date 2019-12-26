@@ -140,7 +140,12 @@ exports.handler = async (event: IEvent) => {
     if (!params.number || !params.message) {
         return {
             statusCode: 400,
-            body: "Sembra che i dati inviati non siano corretti"
+            body: "Sembra che i dati inviati non siano corretti",
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Headers': 'Content-Type',
+                'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE'
+            }
         };
     }
 
@@ -154,11 +159,21 @@ exports.handler = async (event: IEvent) => {
         return {
             statusCode: 200,
             body: JSON.stringify(result),
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Headers': 'Content-Type',
+                'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE'
+            }
         }
     } catch (e) {
         return {
             statusCode: 400,
             body: JSON.stringify(skebby.error),
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Headers': 'Content-Type',
+                'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE'
+            }
         }
     }
 };
