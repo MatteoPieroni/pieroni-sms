@@ -25,7 +25,7 @@ const MESSAGE_HIGH_QUALITY = "GP";
 const MESSAGE_MEDIUM_QUALITY = "TI";
 const MESSAGE_LOW_QUALITY = "SI";
 
-const BASEURL = process.env.URL;
+const BASEURL = process.env.SMS_API_URL;
 const ALLOWED_ORIGIN = process.env.ALLOWED_ORIGIN;
 const username = process.env.USER;
 const password = process.env.PASSWORD;
